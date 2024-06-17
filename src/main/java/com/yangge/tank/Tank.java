@@ -5,16 +5,19 @@ import java.awt.*;
 public class Tank {
     private int x, y;
     private Dir dir = Dir.DOWN;
-    private static final int SPEED = 10;
+    private static final int SPEED = 5;
     private boolean moving = false;
+
+    private TankFrame tankFrame;
 
     public Tank() {
     }
 
-    public Tank(int x, int y, Dir dir) {
+    public Tank(int x, int y, Dir dir, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.tankFrame = tankFrame;
     }
 
     public boolean isMoving() {
@@ -50,7 +53,10 @@ public class Tank {
     }
 
     public void paint(Graphics graphics) {
+        Color color = graphics.getColor();
+        graphics.setColor(Color.YELLOW);
         graphics.fillRect(x, y, 50, 50);
+        graphics.setColor(color);
 
         move();
     }
@@ -60,17 +66,21 @@ public class Tank {
 
         switch (dir) {
             case LEFT:
-                x -= 10;
+                x -= SPEED;
                 break;
             case RIGHT:
-                x += 10;
+                x += SPEED;
                 break;
             case UP:
-                y -= 10;
+                y -= SPEED;
                 break;
             case DOWN:
-                y += 10;
+                y += SPEED;
                 break;
         }
+    }
+
+    public void fire() {
+        tankFrame.bullet = new Bullet(this.x, this.y, this.dir);
     }
 }
