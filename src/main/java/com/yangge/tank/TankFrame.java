@@ -10,9 +10,10 @@ import java.util.List;
 
 public class TankFrame extends Frame {
 
-    Tank myTank = new Tank(200, 200, Dir.DOWN, this);
+    Tank myTank = new Tank(200, 600, Dir.DOWN, this);
     List<Bullet> bullets = new ArrayList<>();
-    Bullet bullet = new Bullet(300, 300, Dir.DOWN, this);
+    List<Tank> tanks = new ArrayList<>();
+    // Bullet bullet = new Bullet(300, 300, Dir.DOWN, this);
     static final int GAME_WIDTH = 1000, GAME_HEIGHT = 1000;
 
     public TankFrame() {
@@ -52,11 +53,21 @@ public class TankFrame extends Frame {
         Color color = graphics.getColor();
         graphics.setColor(Color.WHITE);
         graphics.drawString("子弹的数量: " + bullets.size(), 10, 60);
+        graphics.drawString("敌人的数量: " + tanks.size(), 10, 80);
         graphics.setColor(color);
 
         myTank.paint(graphics);
         for (int i = 0; i < bullets.size(); i++) {
              bullets.get(i).paint(graphics);
+        }
+        for (int i = 0; i < tanks.size(); i++) {
+            tanks.get(i).paint(graphics);
+        }
+
+        for (int i = 0; i < bullets.size(); i++) {
+            for (int j = 0; j < tanks.size(); j++) {
+                bullets.get(i).collideWidth(tanks.get(j));
+            }
         }
     }
 
