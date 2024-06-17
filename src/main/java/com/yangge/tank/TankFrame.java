@@ -8,9 +8,7 @@ import java.awt.event.WindowEvent;
 
 public class TankFrame extends Frame {
 
-    int x = 200, y = 200;
-    Dir dir = Dir.DOWN;
-    private static final int SPEED = 10;
+    Tank myTank = new Tank(200, 200, Dir.DOWN);
 
     public TankFrame() {
         super();
@@ -31,21 +29,7 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics graphics) {
-        graphics.fillRect(x, y, 50, 50);
-        switch (dir) {
-            case LEFT:
-                x -= 10;
-                break;
-            case RIGHT:
-                x += 10;
-                break;
-            case UP:
-                y -= 10;
-                break;
-            case DOWN:
-                y += 10;
-                break;
-        }
+        myTank.paint(graphics);
     }
 
     class MyKeyListener extends KeyAdapter {
@@ -99,10 +83,10 @@ public class TankFrame extends Frame {
         }
 
         private void setMainTankDir() {
-            if (bL) dir = Dir.LEFT;
-            if (bR) dir = Dir.RIGHT;
-            if (bU) dir = Dir.UP;
-            if (bD) dir = Dir.DOWN;
+            if (bL) myTank.setDir(Dir.LEFT);
+            if (bR) myTank.setDir(Dir.RIGHT);
+            if (bU) myTank.setDir(Dir.UP);
+            if (bD) myTank.setDir(Dir.DOWN);
         }
     }
 
