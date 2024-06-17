@@ -12,15 +12,18 @@ public class Bullet {
     private Dir dir;
     private TankFrame tankFrame;
 
+    private Group group = Group.BAD;
+
     private boolean living = true;
 
     public Bullet() {
     }
 
-    public Bullet(int x, int y, Dir dir, TankFrame tankFrame) {
+    public Bullet(int x, int y, Dir dir, Group group, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.group = group;
         this.tankFrame = tankFrame;
     }
 
@@ -74,6 +77,9 @@ public class Bullet {
     }
 
     public void collideWidth(Tank tank) {
+        if (this.group == tank.getGroup()) return;
+
+        // TODO: 用一共rect记录子弹的位置
         Rectangle rectBullet = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
         Rectangle rectTank = new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT);
         if (rectBullet.intersects(rectTank)) {
@@ -84,5 +90,13 @@ public class Bullet {
 
     private void die() {
         living = false;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

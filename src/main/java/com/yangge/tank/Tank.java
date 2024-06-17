@@ -1,6 +1,7 @@
 package com.yangge.tank;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Tank {
     private int x, y;
@@ -10,7 +11,11 @@ public class Tank {
     public static int WIDTH = ResourceMgr.tankD.getWidth();
     public static int HEIGHT = ResourceMgr.tankD.getHeight();
 
-    private boolean moving = false;
+    private Random random = new Random();
+
+    private Group group = Group.BAD;
+
+    private boolean moving = true;
 
     private TankFrame tankFrame;
     private boolean living = true;
@@ -18,10 +23,11 @@ public class Tank {
     public Tank() {
     }
 
-    public Tank(int x, int y, Dir dir, TankFrame tankFrame) {
+    public Tank(int x, int y, Dir dir, Group group, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.group = group;
         this.tankFrame = tankFrame;
     }
 
@@ -51,6 +57,14 @@ public class Tank {
 
     public Dir getDir() {
         return dir;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public void setDir(Dir dir) {
@@ -95,12 +109,16 @@ public class Tank {
                 y += SPEED;
                 break;
         }
+
+        if (random.nextInt(10) > 5) {
+            this.fire();
+        }
     }
 
     public void fire() {
         int bX = this.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2 - 1;
         int bY = this.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2 + 4;
-        tankFrame.bullets.add(new Bullet(bX, bY, this.dir, this.tankFrame));
+        tankFrame.bullets.add(new Bullet(bX, bY, this.dir, group, this.tankFrame));
     }
 
 
